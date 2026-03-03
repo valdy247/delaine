@@ -73,8 +73,6 @@
     rowId: 1
   };
 
-  let cachedClient = null;
-
   function getSupabaseConfig() {
     const runtime = window.SUPABASE_CONFIG && typeof window.SUPABASE_CONFIG === "object"
       ? window.SUPABASE_CONFIG
@@ -89,17 +87,7 @@
 
   function isSupabaseEnabled() {
     const cfg = getSupabaseConfig();
-    return Boolean(cfg.url && cfg.anonKey && window.supabase && typeof window.supabase.createClient === "function");
-  }
-
-  function getSupabaseClient() {
-    if (!isSupabaseEnabled()) return null;
-    if (cachedClient) return cachedClient;
-    const cfg = getSupabaseConfig();
-    cachedClient = window.supabase.createClient(cfg.url, cfg.anonKey, {
-      auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
-    });
-    return cachedClient;
+    return Boolean(cfg.url && cfg.anonKey);
   }
 
   function cloneDefault() {
@@ -195,24 +183,38 @@
     if (!isSupabaseEnabled()) return local;
 
     const cfg = getSupabaseConfig();
-    const client = getSupabaseClient();
-    if (!client) return local;
+    const endpoint =
+      cfg.url +
+      "/rest/v1/" +
+      encodeURIComponent(cfg.table) +
+      "?id=eq." +
+      encodeURIComponent(String(cfg.rowId)) +
+      "&select=content";
 
-    const response = await client
-      .from(cfg.table)
-      .select("content")
-      .eq("id", cfg.rowId)
-      .maybeSingle();
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        apikey: cfg.anonKey,
+        Authorization: "Bearer " + cfg.anonKey,
+        "Cache-Control": "no-cache"
+      }
+    });
 
-    if (response.error) {
-      throw new Error(response.error.message || "No se pudo cargar desde Supabase.");
+    if (!response.ok) {
+      let details = "Error HTTP " + response.status;
+      try {
+        const errorBody = await response.json();
+        if (errorBody && errorBody.message) details = errorBody.message;
+      } catch (error) {}
+      throw new Error(details);
     }
 
-    if (!response.data || !response.data.content) {
+    const rows = await response.json();
+    if (!Array.isArray(rows) || rows.length === 0 || !rows[0].content) {
       return local;
     }
 
-    const normalized = normalize(response.data.content);
+    const normalized = normalize(rows[0].content);
     saveLocal(normalized);
     return normalized;
   }
@@ -222,21 +224,40 @@
     if (!isSupabaseEnabled()) return normalized;
 
     const cfg = getSupabaseConfig();
-    const client = getSupabaseClient();
-    if (!client) return normalized;
 
-    const payload = {
-      id: cfg.rowId,
-      content: normalized,
-      updated_at: new Date().toISOString()
-    };
+    const endpoint =
+      cfg.url +
+      "/rest/v1/" +
+      encodeURIComponent(cfg.table) +
+      "?on_conflict=id";
 
-    const response = await client
-      .from(cfg.table)
-      .upsert(payload, { onConflict: "id" });
+    const payload = JSON.stringify([
+      {
+        id: cfg.rowId,
+        content: normalized,
+        updated_at: new Date().toISOString()
+      }
+    ]);
 
-    if (response.error) {
-      throw new Error(response.error.message || "No se pudo guardar en Supabase.");
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        apikey: cfg.anonKey,
+        Authorization: "Bearer " + cfg.anonKey,
+        "Content-Type": "application/json",
+        Prefer: "resolution=merge-duplicates,return=representation",
+        "Cache-Control": "no-cache"
+      },
+      body: payload
+    });
+
+    if (!response.ok) {
+      let details = "Error HTTP " + response.status;
+      try {
+        const errorBody = await response.json();
+        if (errorBody && errorBody.message) details = errorBody.message;
+      } catch (error) {}
+      throw new Error(details);
     }
 
     return normalized;
