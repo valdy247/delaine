@@ -20,7 +20,6 @@ async function renderDynamicContent() {
   const footerBrand = document.getElementById("footer-brand");
   const heroTitle = document.getElementById("hero-title");
   const heroSubtitle = document.getElementById("hero-subtitle");
-  const heroPrimaryCta = document.getElementById("hero-primary-cta");
   const heroWhatsappBtn = document.getElementById("hero-whatsapp-btn");
   const floatingWhatsapp = document.querySelector(".floating-whatsapp");
   const instagramLink = document.getElementById("instagram-link");
@@ -39,7 +38,6 @@ async function renderDynamicContent() {
   if (footerBrand) footerBrand.textContent = content.business.name;
   if (heroTitle) heroTitle.textContent = content.hero.title;
   if (heroSubtitle) heroSubtitle.textContent = content.hero.subtitle;
-  if (heroPrimaryCta) heroPrimaryCta.textContent = content.hero.ctaPrimaryText;
   if (heroWhatsappBtn) {
     heroWhatsappBtn.textContent = content.hero.ctaSecondaryText;
     heroWhatsappBtn.href = waInfoLink;
