@@ -168,7 +168,51 @@ function setupMobileMenu() {
   });
 }
 
+function setupPaymentsModal() {
+  const openBtn = document.getElementById("open-payments-modal");
+  const modal = document.getElementById("payments-modal");
+  const closeBtn = document.getElementById("close-payments-modal");
+  const status = document.getElementById("payments-modal-status");
+  const options = document.querySelectorAll(".payment-option");
+
+  if (!openBtn || !modal || !closeBtn || !status) return;
+
+  function openModal() {
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    status.textContent = "";
+  }
+
+  function closeModal() {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+  }
+
+  openBtn.addEventListener("click", openModal);
+  closeBtn.addEventListener("click", closeModal);
+
+  modal.addEventListener("click", function (event) {
+    if (event.target === modal) closeModal();
+  });
+
+  options.forEach(function (option) {
+    option.addEventListener("click", function () {
+      const method = option.getAttribute("data-method") || "metodo";
+      status.textContent = method + " aun no esta configurado. Lo conectamos en el siguiente paso.";
+    });
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && modal.classList.contains("is-open")) {
+      closeModal();
+    }
+  });
+}
+
 setupRevealAnimation();
 setupMobileMenu();
+setupPaymentsModal();
 
 renderDynamicContent();

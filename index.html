@@ -28,7 +28,7 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=20260303-7" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -120,11 +120,35 @@
           <p class="section-subtitle">Senal segura para confirmar tu fecha.</p>
           <div class="payments-box">
             <p id="payments-text">Aceptamos Bizum, transferencia bancaria y enlace de pago.</p>
-            <a class="btn btn-primary" href="#contacto">Solicitar enlace de pago</a>
+            <button id="open-payments-modal" class="btn btn-primary" type="button">Pagos</button>
           </div>
         </div>
       </section>
     </main>
+
+    <div
+      id="payments-modal"
+      class="payments-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+      aria-labelledby="payments-modal-title"
+    >
+      <div class="payments-modal-content">
+        <button id="close-payments-modal" class="payments-modal-close" type="button" aria-label="Cerrar ventana de pagos">
+          Cerrar
+        </button>
+        <h3 id="payments-modal-title">Selecciona metodo de pago</h3>
+        <p>Elige una opcion. En el siguiente paso configuramos cada metodo contigo.</p>
+        <div class="payments-options">
+          <button class="payment-option" type="button" data-method="Bizum">Bizum</button>
+          <button class="payment-option" type="button" data-method="Tarjeta">Tarjeta</button>
+          <button class="payment-option" type="button" data-method="Transferencia">Transferencia bancaria</button>
+          <button class="payment-option" type="button" data-method="PayPal">PayPal</button>
+        </div>
+        <p id="payments-modal-status" class="payments-modal-status" aria-live="polite"></p>
+      </div>
+    </div>
 
     <footer class="footer">
       <div class="container">
@@ -136,8 +160,8 @@
       </div>
     </footer>
 
-    <script src="supabase-config.js?v=20260303-6"></script>
-    <script src="site-data.js?v=20260303-6"></script>
-    <script src="script.js?v=20260303-6"></script>
+    <script src="supabase-config.js?v=20260303-7"></script>
+    <script src="site-data.js?v=20260303-7"></script>
+    <script src="script.js?v=20260303-7"></script>
   </body>
 </html>
