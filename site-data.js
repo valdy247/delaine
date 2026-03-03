@@ -4,8 +4,8 @@
   const DEFAULT_SITE_CONTENT = {
     business: {
       name: "Balloons Queens",
-      phoneE164: "+34600000000",
-      phoneDisplay: "+34 600 000 000",
+      phoneE164: "617144121",
+      phoneDisplay: "617144121",
       area: "Elche y alrededores",
       hours: "Lunes a Sabado, 9:00 a 20:00",
       instagramUrl: "https://www.instagram.com"
