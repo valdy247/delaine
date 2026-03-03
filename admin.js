@@ -200,8 +200,17 @@
     const accepted = window.confirm("Se borraran tus cambios guardados y se restauraran los valores iniciales. Continuar?");
     if (!accepted) return;
     state = window.SiteContentStore.reset();
-    refreshForm();
-    setStatus("Valores iniciales restaurados.", false);
+    window.SiteContentStore
+      .saveRemote(state)
+      .then(function (saved) {
+        state = saved;
+        refreshForm();
+        setStatus("Valores iniciales restaurados.", false);
+      })
+      .catch(function (error) {
+        refreshForm();
+        setStatus("Restaurado localmente, pero fallo al sincronizar con Supabase.", true);
+      });
   });
 
   exportJsonBtn.addEventListener("click", function () {
@@ -293,9 +302,32 @@
       }
     };
 
-    state = window.SiteContentStore.save(updated);
-    setStatus("Cambios guardados. Recarga la web para verlos.", false);
+    window.SiteContentStore
+      .saveRemote(updated)
+      .then(function (saved) {
+        state = saved;
+        setStatus("Cambios guardados y sincronizados.", false);
+      })
+      .catch(function (error) {
+        state = window.SiteContentStore.save(updated);
+        setStatus("Guardado local. Revisa conexion/configuracion de Supabase.", true);
+      });
   });
 
-  refreshForm();
+  window.SiteContentStore
+    .loadRemote()
+    .then(function (remoteState) {
+      state = remoteState;
+      refreshForm();
+      if (window.SiteContentStore.isSupabaseEnabled()) {
+        setStatus("Conectado a Supabase.", false);
+      } else {
+        setStatus("Modo local activo. Configura Supabase para cambios globales.", true);
+      }
+    })
+    .catch(function () {
+      state = window.SiteContentStore.load();
+      refreshForm();
+      setStatus("No se pudo leer Supabase. Modo local activo.", true);
+    });
 })();

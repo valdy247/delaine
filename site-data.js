@@ -66,6 +66,42 @@
     }
   };
 
+  const DEFAULT_SUPABASE_CONFIG = {
+    url: "",
+    anonKey: "",
+    table: "site_content",
+    rowId: 1
+  };
+
+  let cachedClient = null;
+
+  function getSupabaseConfig() {
+    const runtime = window.SUPABASE_CONFIG && typeof window.SUPABASE_CONFIG === "object"
+      ? window.SUPABASE_CONFIG
+      : {};
+    return {
+      url: String(runtime.url || DEFAULT_SUPABASE_CONFIG.url).trim(),
+      anonKey: String(runtime.anonKey || DEFAULT_SUPABASE_CONFIG.anonKey).trim(),
+      table: String(runtime.table || DEFAULT_SUPABASE_CONFIG.table).trim(),
+      rowId: Number(runtime.rowId || DEFAULT_SUPABASE_CONFIG.rowId)
+    };
+  }
+
+  function isSupabaseEnabled() {
+    const cfg = getSupabaseConfig();
+    return Boolean(cfg.url && cfg.anonKey && window.supabase && typeof window.supabase.createClient === "function");
+  }
+
+  function getSupabaseClient() {
+    if (!isSupabaseEnabled()) return null;
+    if (cachedClient) return cachedClient;
+    const cfg = getSupabaseConfig();
+    cachedClient = window.supabase.createClient(cfg.url, cfg.anonKey, {
+      auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+    });
+    return cachedClient;
+  }
+
   function cloneDefault() {
     return JSON.parse(JSON.stringify(DEFAULT_SITE_CONTENT));
   }
@@ -110,11 +146,11 @@
       }
     };
 
-    normalized.packages = asArray(data.packages, defaults.packages).map((item, index) => {
+    normalized.packages = asArray(data.packages, defaults.packages).map(function (item, index) {
       const fallback = defaults.packages[index] || defaults.packages[defaults.packages.length - 1];
       const safeItem = item && typeof item === "object" ? item : {};
       const features = Array.isArray(safeItem.features)
-        ? safeItem.features.map((feature) => String(feature || "").trim()).filter(Boolean)
+        ? safeItem.features.map(function (feature) { return String(feature || "").trim(); }).filter(Boolean)
         : fallback.features;
 
       return {
@@ -126,7 +162,7 @@
       };
     });
 
-    normalized.gallery = asArray(data.gallery, defaults.gallery).map((item, index) => {
+    normalized.gallery = asArray(data.gallery, defaults.gallery).map(function (item, index) {
       const fallback = defaults.gallery[index] || defaults.gallery[defaults.gallery.length - 1];
       const safeItem = item && typeof item === "object" ? item : {};
       return {
@@ -138,7 +174,7 @@
     return normalized;
   }
 
-  function load() {
+  function loadLocal() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return cloneDefault();
@@ -148,9 +184,61 @@
     }
   }
 
-  function save(data) {
+  function saveLocal(data) {
     const normalized = normalize(data);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized));
+    return normalized;
+  }
+
+  async function loadRemote() {
+    const local = loadLocal();
+    if (!isSupabaseEnabled()) return local;
+
+    const cfg = getSupabaseConfig();
+    const client = getSupabaseClient();
+    if (!client) return local;
+
+    const response = await client
+      .from(cfg.table)
+      .select("content")
+      .eq("id", cfg.rowId)
+      .maybeSingle();
+
+    if (response.error) {
+      throw new Error(response.error.message || "No se pudo cargar desde Supabase.");
+    }
+
+    if (!response.data || !response.data.content) {
+      return local;
+    }
+
+    const normalized = normalize(response.data.content);
+    saveLocal(normalized);
+    return normalized;
+  }
+
+  async function saveRemote(data) {
+    const normalized = saveLocal(data);
+    if (!isSupabaseEnabled()) return normalized;
+
+    const cfg = getSupabaseConfig();
+    const client = getSupabaseClient();
+    if (!client) return normalized;
+
+    const payload = {
+      id: cfg.rowId,
+      content: normalized,
+      updated_at: new Date().toISOString()
+    };
+
+    const response = await client
+      .from(cfg.table)
+      .upsert(payload, { onConflict: "id" });
+
+    if (response.error) {
+      throw new Error(response.error.message || "No se pudo guardar en Supabase.");
+    }
+
     return normalized;
   }
 
@@ -168,9 +256,13 @@
     STORAGE_KEY: STORAGE_KEY,
     DEFAULT_SITE_CONTENT: DEFAULT_SITE_CONTENT,
     normalize: normalize,
-    load: load,
-    save: save,
+    load: loadLocal,
+    save: saveLocal,
+    loadRemote: loadRemote,
+    saveRemote: saveRemote,
     reset: reset,
-    buildWhatsAppLink: buildWhatsAppLink
+    buildWhatsAppLink: buildWhatsAppLink,
+    isSupabaseEnabled: isSupabaseEnabled,
+    getSupabaseConfig: getSupabaseConfig
   };
 })();

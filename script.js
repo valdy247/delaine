@@ -1,7 +1,12 @@
-function renderDynamicContent() {
+async function renderDynamicContent() {
   if (!window.SiteContentStore) return;
 
-  const content = window.SiteContentStore.load();
+  let content = window.SiteContentStore.load();
+  try {
+    content = await window.SiteContentStore.loadRemote();
+  } catch (error) {
+    content = window.SiteContentStore.load();
+  }
   const waInfoLink = window.SiteContentStore.buildWhatsAppLink(
     content.business.phoneE164,
     content.whatsapp.infoMessage
@@ -165,6 +170,7 @@ function setupMobileMenu() {
   });
 }
 
-renderDynamicContent();
 setupRevealAnimation();
 setupMobileMenu();
+
+renderDynamicContent();
