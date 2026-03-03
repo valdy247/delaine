@@ -193,6 +193,7 @@
 
     const response = await fetch(endpoint, {
       method: "GET",
+      cache: "no-store",
       headers: {
         apikey: cfg.anonKey,
         Authorization: "Bearer " + cfg.anonKey,
@@ -241,6 +242,7 @@
 
     const response = await fetch(endpoint, {
       method: "POST",
+      cache: "no-store",
       headers: {
         apikey: cfg.anonKey,
         Authorization: "Bearer " + cfg.anonKey,

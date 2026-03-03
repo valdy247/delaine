@@ -234,8 +234,9 @@
         setStatus("Valores iniciales restaurados.", false);
       })
       .catch(function (error) {
+        const reason = error && error.message ? " (" + error.message + ")" : "";
         refreshForm();
-        setStatus("Restaurado localmente, pero fallo al sincronizar con Supabase.", true);
+        setStatus("Restaurado localmente, pero fallo al sincronizar con Supabase." + reason, true);
       });
   });
 
@@ -301,10 +302,11 @@
               setStatus("Error: guardado local pero no se confirmo sincronizacion global.", true);
             }
           })
-          .catch(function () {
+          .catch(function (error) {
+            const reason = error && error.message ? " (" + error.message + ")" : "";
             state = window.SiteContentStore.save(normalized);
             refreshForm();
-            setStatus("Error: JSON importado solo en local. No se sincronizo global.", true);
+            setStatus("Error: JSON importado solo en local. No se sincronizo global." + reason, true);
           });
       } catch (error) {
         setStatus("El archivo no es un JSON valido.", true);
@@ -359,8 +361,9 @@
         }
       })
       .catch(function (error) {
+        const reason = error && error.message ? " (" + error.message + ")" : "";
         state = window.SiteContentStore.save(updated);
-        setStatus("Guardado local. Revisa conexion/configuracion de Supabase.", true);
+        setStatus("Guardado local. Revisa conexion/configuracion de Supabase." + reason, true);
       });
   });
 
@@ -375,9 +378,10 @@
         setStatus("Modo local activo. Configura Supabase para cambios globales.", true);
       }
     })
-    .catch(function () {
+    .catch(function (error) {
+      const reason = error && error.message ? " (" + error.message + ")" : "";
       state = window.SiteContentStore.load();
       refreshForm();
-      setStatus("No se pudo leer Supabase. Modo local activo.", true);
+      setStatus("No se pudo leer Supabase. Modo local activo." + reason, true);
     });
 })();
