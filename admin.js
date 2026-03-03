@@ -149,6 +149,32 @@
     saveStatus.style.color = isError ? "#9f2d2d" : "#357a44";
   }
 
+  function sleep(ms) {
+    return new Promise(function (resolve) {
+      setTimeout(resolve, ms);
+    });
+  }
+
+  function serializeContent(data) {
+    return JSON.stringify(window.SiteContentStore.normalize(data));
+  }
+
+  async function verifyGlobalSync(expectedData) {
+    const expected = serializeContent(expectedData);
+    const attempts = 4;
+
+    for (let i = 0; i < attempts; i += 1) {
+      try {
+        const remote = await window.SiteContentStore.loadRemote();
+        const actual = serializeContent(remote);
+        if (actual === expected) return true;
+      } catch (error) {}
+      await sleep(700);
+    }
+
+    return false;
+  }
+
   addPackageBtn.addEventListener("click", function () {
     state.packages.push({
       name: "Nuevo paquete",
@@ -260,9 +286,26 @@
     reader.onload = function () {
       try {
         const parsed = JSON.parse(String(reader.result || "{}"));
-        state = window.SiteContentStore.save(parsed);
-        refreshForm();
-        setStatus("JSON importado y guardado.", false);
+        const normalized = window.SiteContentStore.normalize(parsed);
+        window.SiteContentStore
+          .saveRemote(normalized)
+          .then(function (saved) {
+            state = saved;
+            refreshForm();
+            return verifyGlobalSync(saved);
+          })
+          .then(function (ok) {
+            if (ok) {
+              setStatus("JSON importado y sincronizado globalmente.", false);
+            } else {
+              setStatus("Error: guardado local pero no se confirmo sincronizacion global.", true);
+            }
+          })
+          .catch(function () {
+            state = window.SiteContentStore.save(normalized);
+            refreshForm();
+            setStatus("Error: JSON importado solo en local. No se sincronizo global.", true);
+          });
       } catch (error) {
         setStatus("El archivo no es un JSON valido.", true);
       } finally {
@@ -306,7 +349,14 @@
       .saveRemote(updated)
       .then(function (saved) {
         state = saved;
-        setStatus("Cambios guardados y sincronizados.", false);
+        return verifyGlobalSync(saved);
+      })
+      .then(function (ok) {
+        if (ok) {
+          setStatus("Cambios guardados y sincronizados globalmente.", false);
+        } else {
+          setStatus("Error: guardado local pero no se confirmo sincronizacion global.", true);
+        }
       })
       .catch(function (error) {
         state = window.SiteContentStore.save(updated);
