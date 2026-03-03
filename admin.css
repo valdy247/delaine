@@ -162,6 +162,31 @@ a:focus-visible {
   background: #fff;
 }
 
+.upload-btn {
+  margin-top: 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.45rem 0.75rem;
+  font: inherit;
+  cursor: pointer;
+  background: #fff;
+  width: fit-content;
+}
+
+.upload-btn:hover {
+  border-color: var(--accent);
+}
+
+.sr-only-file {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .section-head button:hover,
 .remove-btn:hover {
   border-color: var(--accent);

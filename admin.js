@@ -43,7 +43,10 @@
       '<label>Imagen (URL o archivo local)<input class="pkg-image" type="text" value="' +
       escapeHtml(pkg.image) +
       '" required /></label>' +
-      '<label>Subir imagen desde dispositivo<input class="pkg-file" type="file" accept="image/*" /></label>' +
+      '<label>Subir imagen desde dispositivo' +
+      '<button type="button" class="upload-btn upload-package-btn">Elegir imagen</button>' +
+      '<input class="pkg-file sr-only-file" type="file" accept="image/*" />' +
+      "</label>" +
       '<label>Alt imagen<input class="pkg-alt" type="text" value="' +
       escapeHtml(pkg.alt) +
       '" required /></label>' +
@@ -70,7 +73,10 @@
       '<label>Imagen (URL o archivo local)<input class="gallery-image" type="text" value="' +
       escapeHtml(item.image) +
       '" required /></label>' +
-      '<label>Subir imagen desde dispositivo<input class="gallery-file" type="file" accept="image/*" /></label>' +
+      '<label>Subir imagen desde dispositivo' +
+      '<button type="button" class="upload-btn upload-gallery-btn">Elegir imagen</button>' +
+      '<input class="gallery-file sr-only-file" type="file" accept="image/*" />' +
+      "</label>" +
       '<label>Alt imagen<input class="gallery-alt" type="text" value="' +
       escapeHtml(item.alt) +
       '" required /></label>' +
@@ -247,6 +253,13 @@
   });
 
   packagesEditor.addEventListener("click", function (event) {
+    if (event.target.classList.contains("upload-package-btn")) {
+      const editor = event.target.closest(".package-item");
+      const fileInput = editor && editor.querySelector(".pkg-file");
+      if (fileInput) fileInput.click();
+      return;
+    }
+
     if (!event.target.classList.contains("remove-package")) return;
     if (state.packages.length <= 1) {
       setStatus("Debe existir al menos un paquete.", true);
@@ -287,6 +300,13 @@
   });
 
   galleryEditor.addEventListener("click", function (event) {
+    if (event.target.classList.contains("upload-gallery-btn")) {
+      const editor = event.target.closest(".gallery-item");
+      const fileInput = editor && editor.querySelector(".gallery-file");
+      if (fileInput) fileInput.click();
+      return;
+    }
+
     if (!event.target.classList.contains("remove-gallery-item")) return;
     if (state.gallery.length <= 1) {
       setStatus("Debe existir al menos una foto de galeria.", true);
