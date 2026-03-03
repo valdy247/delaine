@@ -10,6 +10,7 @@
   const exportJsonBtn = document.getElementById("export-json");
   const importJsonFileInput = document.getElementById("import-json-file");
   const saveStatus = document.getElementById("save-status");
+  let statusTimer = null;
 
   let state = window.SiteContentStore.load();
 
@@ -153,8 +154,19 @@
   }
 
   function setStatus(message, isError) {
+    if (statusTimer) {
+      clearTimeout(statusTimer);
+      statusTimer = null;
+    }
+
     saveStatus.textContent = message;
     saveStatus.style.color = isError ? "#9f2d2d" : "#357a44";
+
+    const timeoutMs = isError ? 9000 : 4500;
+    statusTimer = setTimeout(function () {
+      saveStatus.textContent = "";
+      statusTimer = null;
+    }, timeoutMs);
   }
 
   function sanitizeFileName(name) {
