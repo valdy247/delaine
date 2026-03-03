@@ -274,7 +274,8 @@
     uploadImageFile(file, "packages")
       .then(function (publicUrl) {
         imageField.value = publicUrl;
-        setStatus("Imagen de paquete subida. Pulsa Guardar cambios.", false);
+        setStatus("Imagen de paquete subida. Guardando cambios...", false);
+        form.requestSubmit();
       })
       .catch(function (error) {
         const reason = error && error.message ? " (" + error.message + ")" : "";
@@ -313,7 +314,8 @@
     uploadImageFile(file, "gallery")
       .then(function (publicUrl) {
         imageField.value = publicUrl;
-        setStatus("Imagen de galeria subida. Pulsa Guardar cambios.", false);
+        setStatus("Imagen de galeria subida. Guardando cambios...", false);
+        form.requestSubmit();
       })
       .catch(function (error) {
         const reason = error && error.message ? " (" + error.message + ")" : "";
