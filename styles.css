@@ -351,6 +351,18 @@ h2 {
   color: #6e5b63;
 }
 
+.admin-link {
+  display: inline-block;
+  margin-top: 0.35rem;
+  color: #7f5a66;
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(127, 90, 102, 0.4);
+}
+
+.admin-link:hover {
+  color: #916a37;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(28px);

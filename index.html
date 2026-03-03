@@ -54,7 +54,7 @@
 
     <header class="site-header">
       <nav class="menu container" aria-label="Principal">
-        <a class="menu-brand" href="#inicio">Balloons Queens</a>
+        <a id="menu-brand" class="menu-brand" href="#inicio">Balloons Queens</a>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-links" aria-label="Abrir menu">
           <span></span>
           <span></span>
@@ -73,11 +73,11 @@
       <section id="inicio" class="hero">
         <div class="container hero-inner reveal">
           <img class="hero-logo" src="logo.png" alt="Logo Balloons Queens" />
-          <h1> Decoraciones premium para la fiesta de tus sueños</h1>
-          <p>Hacemos montajes elegantes en Elche y alrededores, bautizos bodas y cumpleaños.</p>
+          <h1 id="hero-title"> Decoraciones premium para la fiesta de tus sueños</h1>
+          <p id="hero-subtitle">Hacemos montajes elegantes en Elche y alrededores, bautizos bodas y cumpleaños.</p>
           <div class="hero-cta">
-            <a class="btn btn-primary" href="#paquetes">Ver paquetes</a>
-            <a class="btn btn-secondary" href="https://wa.me/34600000000?text=Hola%20Balloons%20Queens%2C%20quiero%20informacion%20para%20mi%20evento%20en%20Elche" target="_blank" rel="noopener noreferrer">Pedir presupuesto</a>
+            <a id="hero-primary-cta" class="btn btn-primary" href="#paquetes">Ver paquetes</a>
+            <a id="hero-whatsapp-btn" class="btn btn-secondary" href="https://wa.me/34600000000?text=Hola%20Balloons%20Queens%2C%20quiero%20informacion%20para%20mi%20evento%20en%20Elche" target="_blank" rel="noopener noreferrer">Pedir presupuesto</a>
           </div>
         </div>
       </section>
@@ -86,62 +86,15 @@
         <h2>Paquetes de Globos</h2>
         <p class="section-subtitle">Elige el estilo perfecto para tu celebracion.</p>
 
-        <div class="cards">
-          <article class="card">
-            <img src="basico.png" alt="Paquete Basico de decoracion con globos" loading="lazy" decoding="async" />
-            <div class="card-content">
-              <h3>Paquete Basico</h3>
-              <p class="price">99 EUR</p>
-              <ul>
-                <li>Arco compacto en tonos pastel</li>
-                <li>Montaje en 60 minutos</li>
-                <li>Ideal para espacios pequenos</li>
-              </ul>
-              <a class="btn btn-primary" href="#contacto">Reservar ahora</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <img src="deluxe.png" alt="Paquete Deluxe de decoracion con globos" loading="lazy" decoding="async" />
-            <div class="card-content">
-              <h3>Paquete Deluxe</h3>
-              <p class="price">150 EUR</p>
-              <ul>
-                <li>Arco principal + base de bienvenida</li>
-                <li>Paleta personalizada</li>
-                <li>Soporte de montaje y desmontaje</li>
-              </ul>
-              <a class="btn btn-primary" href="#contacto">Reservar ahora</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <img src="premium.png" alt="Paquete Premium de decoracion con globos" loading="lazy" decoding="async" />
-            <div class="card-content">
-              <h3>Paquete Premium</h3>
-              <p class="price">220 EUR</p>
-              <ul>
-                <li>Escenografia completa para fotos</li>
-                <li>Globos metalicos en dorado suave</li>
-                <li>Diseno a medida para tu evento</li>
-              </ul>
-              <a class="btn btn-primary" href="#contacto">Reservar ahora</a>
-            </div>
-          </article>
-        </div>
+        <div id="packages-list" class="cards"></div>
       </section>
 
       <section id="galeria" class="section gallery-section reveal">
         <div class="container">
           <h2>Galeria de Fotos</h2>
           <p class="section-subtitle">Algunas decoraciones reales de Balloons Queens en Elche.</p>
-          <div class="gallery-grid">
-            <img src="idea delaine.jpeg" alt="Decoracion de mesa con globos" loading="lazy" decoding="async" />
-            <img src="idea delaine.jpeg" alt="Arco de globos para cumpleaños" loading="lazy" decoding="async" />
-            <img src="idea delaine.jpeg" alt="Decoracion elegante en rosa y dorado" loading="lazy" decoding="async" />
-            <img src="idea delaine.jpeg" alt="Montaje premium con globos en Elche" loading="lazy" decoding="async" />
-          </div>
-          <a class="btn btn-secondary" href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">Ver mas fotos</a>
+          <div id="gallery-list" class="gallery-grid"></div>
+          <a id="instagram-link" class="btn btn-secondary" href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">Ver mas fotos</a>
         </div>
       </section>
 
@@ -149,9 +102,10 @@
         <h2>Reserva por WhatsApp</h2>
         <p class="section-subtitle">Cuentanos fecha, tipo de evento y estilo. Te respondemos rapido.</p>
         <div class="contact-card">
-          <p><strong>Zona:</strong> Elche y alrededores</p>
-          <p><strong>Horario:</strong> Lunes a Sabado, 9:00 a 20:00</p>
+          <p><strong>Zona:</strong> <span id="contact-area">Elche y alrededores</span></p>
+          <p><strong>Horario:</strong> <span id="contact-hours">Lunes a Sabado, 9:00 a 20:00</span></p>
           <a
+            id="contact-whatsapp-btn"
             class="btn whatsapp-btn"
             href="https://wa.me/34600000000?text=Hola%20Balloons%20Queens%2C%20quiero%20reservar%20decoracion%20con%20globos%20en%20Elche"
             target="_blank"
@@ -166,7 +120,7 @@
           <h2>Pagos Online</h2>
           <p class="section-subtitle">Senal segura para confirmar tu fecha.</p>
           <div class="payments-box">
-            <p>Aceptamos Bizum, transferencia bancaria y enlace de pago.</p>
+            <p id="payments-text">Aceptamos Bizum, transferencia bancaria y enlace de pago.</p>
             <a class="btn btn-primary" href="#contacto">Solicitar enlace de pago</a>
           </div>
         </div>
@@ -175,10 +129,12 @@
 
     <footer class="footer">
       <div class="container">
-        <p>&copy; 2026 Balloons Queens. Todos los derechos reservados.</p>
+        <p>&copy; <span id="footer-year">2026</span> <span id="footer-brand">Balloons Queens</span>. Todos los derechos reservados.</p>
+        <a class="admin-link" href="admin.html">Panel admin</a>
       </div>
     </footer>
 
+    <script src="site-data.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

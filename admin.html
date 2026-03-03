@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel Admin | Balloons Queens</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <header class="admin-header">
+      <div class="container">
+        <h1>Panel Admin</h1>
+        <p>Edita contenido de la web y guarda cambios al instante.</p>
+        <div class="top-links">
+          <a href="index.html" target="_blank" rel="noopener noreferrer">Abrir web</a>
+          <button id="export-json" type="button">Exportar JSON</button>
+          <label class="import-label" for="import-json-file">Importar JSON</label>
+          <input id="import-json-file" type="file" accept="application/json" hidden />
+          <button id="reset-defaults" type="button" class="danger-btn">Restaurar valores iniciales</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container admin-main">
+      <form id="admin-form">
+        <section class="admin-card">
+          <h2>Negocio</h2>
+          <div class="grid-2">
+            <label>Nombre del negocio<input name="businessName" type="text" required /></label>
+            <label>Telefono E.164 (WhatsApp)<input name="phoneE164" type="text" required /></label>
+            <label>Telefono visible<input name="phoneDisplay" type="text" required /></label>
+            <label>Instagram URL<input name="instagramUrl" type="url" required /></label>
+            <label>Zona<input name="area" type="text" required /></label>
+            <label>Horario<input name="hours" type="text" required /></label>
+          </div>
+        </section>
+
+        <section class="admin-card">
+          <h2>Hero</h2>
+          <div class="grid-1">
+            <label>Titulo principal<input name="heroTitle" type="text" required /></label>
+            <label>Subtitulo<textarea name="heroSubtitle" rows="3" required></textarea></label>
+            <label>Texto boton 1<input name="heroCtaPrimary" type="text" required /></label>
+            <label>Texto boton 2<input name="heroCtaSecondary" type="text" required /></label>
+          </div>
+        </section>
+
+        <section class="admin-card">
+          <h2>WhatsApp</h2>
+          <div class="grid-1">
+            <label>Mensaje para informacion<textarea name="whatsappInfoMessage" rows="2" required></textarea></label>
+            <label>Mensaje para reservar<textarea name="whatsappReserveMessage" rows="2" required></textarea></label>
+          </div>
+        </section>
+
+        <section class="admin-card">
+          <div class="section-head">
+            <h2>Paquetes</h2>
+            <button id="add-package" type="button">Agregar paquete</button>
+          </div>
+          <div id="packages-editor" class="dynamic-list"></div>
+        </section>
+
+        <section class="admin-card">
+          <div class="section-head">
+            <h2>Galeria</h2>
+            <button id="add-gallery-item" type="button">Agregar foto</button>
+          </div>
+          <div id="gallery-editor" class="dynamic-list"></div>
+        </section>
+
+        <section class="admin-card">
+          <h2>Pagos</h2>
+          <div class="grid-1">
+            <label>Texto de pagos<textarea name="paymentsText" rows="3" required></textarea></label>
+          </div>
+        </section>
+
+        <div class="sticky-actions">
+          <button type="submit" class="save-btn">Guardar cambios</button>
+          <span id="save-status" aria-live="polite"></span>
+        </div>
+      </form>
+    </main>
+
+    <script src="site-data.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>
