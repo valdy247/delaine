@@ -53,11 +53,44 @@ window.SUPABASE_CONFIG = {
   url: "https://TU-PROYECTO.supabase.co",
   anonKey: "TU_SUPABASE_ANON_KEY",
   table: "site_content",
-  rowId: 1
+  rowId: 1,
+  storageBucket: "site-media"
 };
 ```
 
-## 5. Desplegar
+## 5. Activar subida de imagenes (Storage)
+Ejecuta este SQL para crear bucket publico y permisos anon:
+
+```sql
+insert into storage.buckets (id, name, public)
+values ('site-media', 'site-media', true)
+on conflict (id) do nothing;
+
+drop policy if exists "public read site media" on storage.objects;
+drop policy if exists "public upload site media" on storage.objects;
+drop policy if exists "public update site media" on storage.objects;
+
+create policy "public read site media"
+on storage.objects
+for select
+to anon
+using (bucket_id = 'site-media');
+
+create policy "public upload site media"
+on storage.objects
+for insert
+to anon
+with check (bucket_id = 'site-media');
+
+create policy "public update site media"
+on storage.objects
+for update
+to anon
+using (bucket_id = 'site-media')
+with check (bucket_id = 'site-media');
+```
+
+## 6. Desplegar
 Haz commit + push. Vercel desplegara automaticamente.
 
 ## Nota de seguridad

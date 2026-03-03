@@ -70,7 +70,8 @@
     url: "",
     anonKey: "",
     table: "site_content",
-    rowId: 1
+    rowId: 1,
+    storageBucket: "site-media"
   };
 
   function getSupabaseConfig() {
@@ -81,7 +82,8 @@
       url: String(runtime.url || DEFAULT_SUPABASE_CONFIG.url).trim(),
       anonKey: String(runtime.anonKey || DEFAULT_SUPABASE_CONFIG.anonKey).trim(),
       table: String(runtime.table || DEFAULT_SUPABASE_CONFIG.table).trim(),
-      rowId: Number(runtime.rowId || DEFAULT_SUPABASE_CONFIG.rowId)
+      rowId: Number(runtime.rowId || DEFAULT_SUPABASE_CONFIG.rowId),
+      storageBucket: String(runtime.storageBucket || DEFAULT_SUPABASE_CONFIG.storageBucket).trim()
     };
   }
 

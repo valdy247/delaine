@@ -43,6 +43,7 @@
       '<label>Imagen (URL o archivo local)<input class="pkg-image" type="text" value="' +
       escapeHtml(pkg.image) +
       '" required /></label>' +
+      '<label>Subir imagen desde dispositivo<input class="pkg-file" type="file" accept="image/*" /></label>' +
       '<label>Alt imagen<input class="pkg-alt" type="text" value="' +
       escapeHtml(pkg.alt) +
       '" required /></label>' +
@@ -69,6 +70,7 @@
       '<label>Imagen (URL o archivo local)<input class="gallery-image" type="text" value="' +
       escapeHtml(item.image) +
       '" required /></label>' +
+      '<label>Subir imagen desde dispositivo<input class="gallery-file" type="file" accept="image/*" /></label>' +
       '<label>Alt imagen<input class="gallery-alt" type="text" value="' +
       escapeHtml(item.alt) +
       '" required /></label>' +
@@ -149,6 +151,56 @@
     saveStatus.style.color = isError ? "#9f2d2d" : "#357a44";
   }
 
+  function sanitizeFileName(name) {
+    return String(name || "image")
+      .toLowerCase()
+      .replace(/[^a-z0-9.\-_]/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+
+  async function uploadImageFile(file, folder) {
+    if (!window.SiteContentStore.isSupabaseEnabled()) {
+      throw new Error("Supabase no esta configurado.");
+    }
+
+    const cfg = window.SiteContentStore.getSupabaseConfig();
+    const bucket = cfg.storageBucket || "site-media";
+    const timestamp = Date.now();
+    const random = Math.floor(Math.random() * 100000);
+    const safeName = sanitizeFileName(file.name || "image.jpg");
+    const objectPath = folder + "/" + timestamp + "-" + random + "-" + safeName;
+    const encodedObjectPath = objectPath
+      .split("/")
+      .map(function (part) {
+        return encodeURIComponent(part);
+      })
+      .join("/");
+    const uploadUrl = cfg.url + "/storage/v1/object/" + encodeURIComponent(bucket) + "/" + encodedObjectPath;
+    const response = await fetch(uploadUrl, {
+      method: "POST",
+      cache: "no-store",
+      headers: {
+        apikey: cfg.anonKey,
+        Authorization: "Bearer " + cfg.anonKey,
+        "x-upsert": "true",
+        "Content-Type": file.type || "application/octet-stream"
+      },
+      body: file
+    });
+
+    if (!response.ok) {
+      let reason = "Error HTTP " + response.status;
+      try {
+        const details = await response.json();
+        reason = details.message || details.error || reason;
+      } catch (error) {}
+      throw new Error(reason);
+    }
+
+    return cfg.url + "/storage/v1/object/public/" + encodeURIComponent(bucket) + "/" + encodedObjectPath;
+  }
+
   function sleep(ms) {
     return new Promise(function (resolve) {
       setTimeout(resolve, ms);
@@ -208,6 +260,31 @@
     }
   });
 
+  packagesEditor.addEventListener("change", function (event) {
+    if (!event.target.classList.contains("pkg-file")) return;
+    const input = event.target;
+    const file = input.files && input.files[0];
+    if (!file) return;
+
+    const editor = input.closest(".package-item");
+    const imageField = editor && editor.querySelector(".pkg-image");
+    if (!imageField) return;
+
+    setStatus("Subiendo imagen de paquete...", false);
+    uploadImageFile(file, "packages")
+      .then(function (publicUrl) {
+        imageField.value = publicUrl;
+        setStatus("Imagen de paquete subida. Pulsa Guardar cambios.", false);
+      })
+      .catch(function (error) {
+        const reason = error && error.message ? " (" + error.message + ")" : "";
+        setStatus("No se pudo subir la imagen de paquete." + reason, true);
+      })
+      .finally(function () {
+        input.value = "";
+      });
+  });
+
   galleryEditor.addEventListener("click", function (event) {
     if (!event.target.classList.contains("remove-gallery-item")) return;
     if (state.gallery.length <= 1) {
@@ -220,6 +297,31 @@
       state.gallery.splice(index, 1);
       renderDynamicEditors();
     }
+  });
+
+  galleryEditor.addEventListener("change", function (event) {
+    if (!event.target.classList.contains("gallery-file")) return;
+    const input = event.target;
+    const file = input.files && input.files[0];
+    if (!file) return;
+
+    const editor = input.closest(".gallery-item");
+    const imageField = editor && editor.querySelector(".gallery-image");
+    if (!imageField) return;
+
+    setStatus("Subiendo imagen de galeria...", false);
+    uploadImageFile(file, "gallery")
+      .then(function (publicUrl) {
+        imageField.value = publicUrl;
+        setStatus("Imagen de galeria subida. Pulsa Guardar cambios.", false);
+      })
+      .catch(function (error) {
+        const reason = error && error.message ? " (" + error.message + ")" : "";
+        setStatus("No se pudo subir la imagen de galeria." + reason, true);
+      })
+      .finally(function () {
+        input.value = "";
+      });
   });
 
   resetDefaultsBtn.addEventListener("click", function () {
