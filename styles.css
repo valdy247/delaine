@@ -471,14 +471,14 @@ body.modal-open {
 
 .whatsapp-btn {
   margin-top: 0.9rem;
-  color: #fff;
-  background: #2fb965;
-  border-color: #269953;
+  color: #684837;
+  background: rgba(255, 250, 245, 0.94);
+  border-color: rgba(152, 114, 84, 0.35);
 }
 
 .whatsapp-btn:hover {
-  background: #2aa85b;
-  border-color: #21824a;
+  background: rgba(255, 247, 238, 0.98);
+  border-color: rgba(133, 96, 69, 0.46);
 }
 
 .floating-whatsapp {
