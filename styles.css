@@ -218,6 +218,17 @@ img {
   padding: 3.8rem 0;
 }
 
+#paquetes {
+  position: relative;
+  z-index: 3;
+  padding-top: 1.5rem;
+  padding-bottom: 3rem;
+}
+
+#paquetes .section-subtitle {
+  margin-bottom: 1.25rem;
+}
+
 h2 {
   margin: 0;
   text-align: center;
@@ -238,12 +249,13 @@ h2 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.2rem;
+  margin-top: 0.35rem;
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.76);
+  background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(190, 155, 95, 0.28);
   border-radius: 16px;
   overflow: hidden;
@@ -595,6 +607,11 @@ body.modal-open {
 
   .cards {
     grid-template-columns: 1fr;
+  }
+
+  #paquetes {
+    padding-top: 1rem;
+    padding-bottom: 2.2rem;
   }
 
   .payments-options {
