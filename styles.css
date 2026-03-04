@@ -126,33 +126,59 @@ img {
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 4rem 0 3.5rem;
+  min-height: calc(100vh - 68px);
+  padding: 0;
+  display: flex;
+  align-items: center;
   border-bottom: 1px solid rgba(190, 155, 95, 0.35);
 }
 
 .hero-inner {
+  width: 100%;
   text-align: center;
   position: relative;
   z-index: 2;
+  padding: 5rem 0 4rem;
 }
 
-.hero-logo {
-  width: min(554px, 99vw);
-  margin: 0 auto 1rem;
-  filter: drop-shadow(0 12px 20px rgba(201, 154, 169, 0.35));
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+  background: #2f1f16;
+  object-fit: cover;
+  aspect-ratio: auto;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(18, 11, 7, 0.45), rgba(18, 11, 7, 0.6));
 }
 
 .hero h1 {
   margin: 0;
   font-size: clamp(2rem, 5vw, 3.1rem);
   line-height: 1.08;
-  color: #7f5a66;
+  color: #fff7ef;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
 .hero p {
   max-width: 760px;
   margin: 1rem auto 0;
   font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+  color: #fff8f1;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
 }
 
 .hero-cta {
@@ -322,9 +348,9 @@ h2 {
 
 .payments-modal-close {
   border: 1px solid rgba(190, 155, 95, 0.5);
-  background: #fff;
-  color: var(--text);
-  border-radius: 10px;
+  background: rgba(255, 250, 245, 0.94);
+  color: #684837;
+  border-radius: 4px;
   padding: 0.4rem 0.7rem;
   font: inherit;
   cursor: pointer;
@@ -338,9 +364,9 @@ h2 {
 
 .payment-option {
   border: 1px solid rgba(190, 155, 95, 0.44);
-  background: linear-gradient(180deg, #fffefe, #f6efdf);
-  color: #78542f;
-  border-radius: 12px;
+  background: rgba(255, 250, 245, 0.94);
+  color: #684837;
+  border-radius: 4px;
   padding: 0.65rem 0.8rem;
   font: inherit;
   font-size: 1.06rem;
@@ -348,7 +374,8 @@ h2 {
 }
 
 .payment-option:hover {
-  border-color: #b88d53;
+  background: rgba(255, 247, 238, 0.98);
+  border-color: rgba(133, 96, 69, 0.46);
 }
 
 .payments-modal-status {
@@ -370,38 +397,50 @@ body.modal-open {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 4px;
   text-decoration: none;
-  font-size: 1.15rem;
-  font-weight: 600;
-  padding: 0.6rem 1.1rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 0.58rem 1rem;
   min-width: 180px;
-  border: 1px solid transparent;
-  transition: transform 170ms ease, box-shadow 170ms ease;
+  border: 1px solid rgba(93, 63, 45, 0.18);
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
 }
 
 .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(146, 95, 115, 0.2);
+  transform: none;
+  box-shadow: none;
 }
 
 .btn-primary {
-  color: #fff;
-  background: linear-gradient(180deg, #e88db2, #ce6f98);
-  border-color: #c9779c;
+  color: #684837;
+  background: rgba(255, 250, 245, 0.94);
+  border-color: rgba(152, 114, 84, 0.35);
 }
 
 .btn-secondary {
-  color: #7d5d3d;
-  background: linear-gradient(180deg, #fffefd, #f0e4ce);
-  border-color: var(--gold-soft);
+  color: #684837;
+  background: rgba(255, 250, 245, 0.94);
+  border-color: rgba(152, 114, 84, 0.35);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  background: rgba(255, 247, 238, 0.98);
+  border-color: rgba(133, 96, 69, 0.46);
 }
 
 .whatsapp-btn {
   margin-top: 0.9rem;
   color: #fff;
-  background: linear-gradient(180deg, #38e075, #25b65b);
-  border-color: #1f9a4d;
+  background: #2fb965;
+  border-color: #269953;
+}
+
+.whatsapp-btn:hover {
+  background: #2aa85b;
+  border-color: #21824a;
 }
 
 .floating-whatsapp {
@@ -493,6 +532,14 @@ body.modal-open {
 }
 
 @media (max-width: 680px) {
+  .hero {
+    min-height: calc(100vh - 64px);
+  }
+
+  .hero-inner {
+    padding: 4.2rem 0 3.4rem;
+  }
+
   .menu {
     min-height: 64px;
     justify-content: space-between;

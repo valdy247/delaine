@@ -3,7 +3,7 @@
 
   const DEFAULT_SITE_CONTENT = {
     business: {
-      name: "Balloons Queens",
+      name: "Alisseo",
       phoneE164: "+34617144121",
       phoneDisplay: "617144121",
       area: "Elche, Alicante y alrededores",
@@ -17,8 +17,8 @@
       ctaSecondaryText: "Pedir presupuesto"
     },
     whatsapp: {
-      infoMessage: "Hola Balloons Queens, quiero informacion para mi evento en Elche o Alicante",
-      reserveMessage: "Hola Balloons Queens, quiero reservar decoracion con globos en Elche o Alicante"
+      infoMessage: "Hola Alisseo, quiero informacion para mi evento en Elche o Alicante",
+      reserveMessage: "Hola Alisseo, quiero reservar decoracion con globos en Elche o Alicante"
     },
     packages: [
       {
@@ -160,6 +160,12 @@
         alt: asText(safeItem.alt, fallback.alt)
       };
     });
+
+    if (normalized.business.name === "Balloons Queens") {
+      normalized.business.name = "Alisseo";
+    }
+    normalized.whatsapp.infoMessage = normalized.whatsapp.infoMessage.replace(/Balloons Queens/gi, "Alisseo");
+    normalized.whatsapp.reserveMessage = normalized.whatsapp.reserveMessage.replace(/Balloons Queens/gi, "Alisseo");
 
     return normalized;
   }
