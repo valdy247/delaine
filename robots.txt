@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sustituye con tu dominio final en produccion
+Sitemap: https://TU-DOMINIO.com/sitemap.xml
