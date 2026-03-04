@@ -138,12 +138,21 @@ img {
   min-height: inherit;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   width: 100%;
   text-align: center;
   position: relative;
   z-index: 2;
   padding: 0;
+}
+
+.hero-copy {
+  margin: 0 auto 1.3rem;
+  width: min(820px, 92vw);
+  padding: 0.8rem 1rem 1rem;
+  border-radius: 12px;
+  background: rgba(20, 12, 8, 0.28);
+  backdrop-filter: blur(2px);
 }
 
 .hero-media {
@@ -180,6 +189,10 @@ img {
 .hero.video-ended p {
   color: #4c3643;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+.hero.video-ended .hero-copy {
+  background: rgba(255, 248, 239, 0.52);
 }
 
 .hero::before {
@@ -592,6 +605,11 @@ body.modal-open {
 
   .hero-inner {
     padding: 0;
+  }
+
+  .hero-copy {
+    margin-bottom: 0.9rem;
+    padding: 0.7rem 0.75rem 0.85rem;
   }
 
   .menu {
