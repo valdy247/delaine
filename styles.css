@@ -134,11 +134,15 @@ img {
 }
 
 .hero-inner {
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
   text-align: center;
   position: relative;
   z-index: 2;
-  padding: 5rem 0 4rem;
+  padding: 2.2rem 0 2.4rem;
 }
 
 .hero-media {
@@ -537,7 +541,7 @@ body.modal-open {
   }
 
   .hero-inner {
-    padding: 4.2rem 0 3.4rem;
+    padding: 1.2rem 0 2rem;
   }
 
   .menu {
