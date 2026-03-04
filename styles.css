@@ -157,6 +157,7 @@ img {
   box-shadow: none;
   background: #2f1f16;
   object-fit: cover;
+  object-position: center 18%;
   aspect-ratio: auto;
 }
 
@@ -535,6 +536,10 @@ body.modal-open {
 }
 
 @media (max-width: 680px) {
+  .hero-media {
+    object-position: center 16%;
+  }
+
   .hero {
     min-height: calc(100vh - 64px);
   }
