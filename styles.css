@@ -142,7 +142,7 @@ img {
   text-align: center;
   position: relative;
   z-index: 2;
-  padding: 2.2rem 0 2.4rem;
+  padding: 0 0 2.4rem;
 }
 
 .hero-media {
@@ -165,8 +165,7 @@ img {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background:
-    linear-gradient(180deg, rgba(18, 11, 7, 0.45), rgba(18, 11, 7, 0.6));
+  background: rgba(18, 11, 7, 0.28);
 }
 
 .hero h1 {
@@ -541,7 +540,7 @@ body.modal-open {
   }
 
   .hero-inner {
-    padding: 1.2rem 0 2rem;
+    padding: 0 0 1.8rem;
   }
 
   .menu {
