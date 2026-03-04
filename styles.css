@@ -107,7 +107,7 @@ img {
   display: block;
   height: 2px;
   width: 100%;
-  background: #7f5a66;
+  background: #000;
   margin: 5px 0;
   transition: transform 180ms ease, opacity 180ms ease;
 }
