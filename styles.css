@@ -537,7 +537,7 @@ body.modal-open {
 
 @media (max-width: 680px) {
   .hero-media {
-    object-position: center 36%;
+    object-position: center 58%;
   }
 
   .hero {
@@ -618,6 +618,12 @@ body.modal-open {
 
   body {
     background-attachment: scroll;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-media {
+    object-position: center 62%;
   }
 }
 
