@@ -694,3 +694,28 @@ body.modal-open {
   margin: 0.55rem 0 0;
   font-size: 1.1rem;
 }
+
+.terms-card {
+  width: min(860px, 100%);
+  margin: 0 auto;
+  padding: 1.15rem 1.2rem;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(190, 155, 95, 0.24);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.terms-card h3 {
+  margin: 0.8rem 0 0.3rem;
+  color: #916a37;
+  font-size: 1.55rem;
+}
+
+.terms-card h3:first-child {
+  margin-top: 0;
+}
+
+.terms-card p {
+  margin: 0 0 0.55rem;
+  font-size: 1.12rem;
+}
