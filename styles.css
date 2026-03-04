@@ -236,6 +236,7 @@ img {
 #paquetes {
   position: relative;
   z-index: 3;
+  margin-top: 0.9rem;
   padding-top: 1.5rem;
   padding-bottom: 3rem;
   background: rgba(255, 248, 239, 0.72);
@@ -640,6 +641,7 @@ body.modal-open {
   }
 
   #paquetes {
+    margin-top: 0.65rem;
     padding-top: 1rem;
     padding-bottom: 2.2rem;
   }
