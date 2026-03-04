@@ -24,7 +24,7 @@ body {
   margin: 0;
   font-family: "Cormorant Garamond", serif;
   color: var(--text);
-  background: url("fondo.png") center top / cover no-repeat fixed;
+  background: url("imagen de fondo.png") center top / cover no-repeat fixed;
   line-height: 1.5;
 }
 
