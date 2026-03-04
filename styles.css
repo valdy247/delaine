@@ -60,7 +60,8 @@ img {
   display: none;
   color: #916a37;
   text-decoration: none;
-  font-family: "Great Vibes", cursive;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 700;
   font-size: 2rem;
 }
 
@@ -223,6 +224,14 @@ img {
   z-index: 3;
   padding-top: 1.5rem;
   padding-bottom: 3rem;
+  background: rgba(255, 248, 239, 0.72);
+  border: 1px solid rgba(190, 155, 95, 0.18);
+  border-radius: 18px;
+}
+
+#paquetes.reveal {
+  opacity: 1;
+  transform: none;
 }
 
 #paquetes .section-subtitle {
