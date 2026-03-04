@@ -466,14 +466,15 @@ body.modal-open {
   z-index: 30;
   background: var(--whatsapp);
   color: #fff;
-  font-weight: 700;
-  padding: 0.62rem 0.95rem;
+  width: 56px;
+  height: 56px;
+  padding: 0;
   border-radius: 999px;
   text-decoration: none;
   box-shadow: 0 8px 20px rgba(37, 211, 102, 0.45);
   display: inline-flex;
+  justify-content: center;
   align-items: center;
-  gap: 0.42rem;
 }
 
 .floating-whatsapp:hover {
@@ -481,8 +482,8 @@ body.modal-open {
 }
 
 .whatsapp-icon {
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 1.65rem;
+  height: 1.65rem;
   flex-shrink: 0;
 }
 
