@@ -113,6 +113,7 @@
     form.elements.heroCtaSecondary.value = state.hero.ctaSecondaryText;
     form.elements.whatsappInfoMessage.value = state.whatsapp.infoMessage;
     form.elements.whatsappReserveMessage.value = state.whatsapp.reserveMessage;
+    form.elements.paymentsSubtitle.value = state.payments.subtitle;
     form.elements.paymentsText.value = state.payments.text;
   }
 
@@ -399,6 +400,7 @@
       packages: collectDynamicEditors().packages,
       gallery: collectDynamicEditors().gallery,
       payments: {
+        subtitle: form.elements.paymentsSubtitle.value.trim(),
         text: form.elements.paymentsText.value.trim()
       }
     });
@@ -479,6 +481,7 @@
       packages: dynamicData.packages,
       gallery: dynamicData.gallery,
       payments: {
+        subtitle: form.elements.paymentsSubtitle.value.trim(),
         text: form.elements.paymentsText.value.trim()
       }
     };

@@ -26,6 +26,7 @@ async function renderDynamicContent() {
   const contactArea = document.getElementById("contact-area");
   const contactHours = document.getElementById("contact-hours");
   const contactWhatsappBtn = document.getElementById("contact-whatsapp-btn");
+  const paymentsSubtitle = document.getElementById("payments-subtitle");
   const paymentsText = document.getElementById("payments-text");
   const footerYear = document.getElementById("footer-year");
   const packagesList = document.getElementById("packages-list");
@@ -56,6 +57,7 @@ async function renderDynamicContent() {
     contactWhatsappBtn.href = waReserveLink;
     contactWhatsappBtn.textContent = "Escribenos por WhatsApp";
   }
+  if (paymentsSubtitle) paymentsSubtitle.textContent = content.payments.subtitle;
   if (paymentsText) paymentsText.textContent = content.payments.text;
   if (footerYear) footerYear.textContent = String(new Date().getFullYear());
 

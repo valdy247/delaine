@@ -62,6 +62,7 @@
       { image: "idea delaine.jpeg", alt: "Montaje premium con globos en Elche" }
     ],
     payments: {
+      subtitle: "Senal segura para confirmar tu fecha.",
       text: "Aceptamos Bizum, transferencia bancaria y enlace de pago."
     }
   };
@@ -132,6 +133,7 @@
       packages: [],
       gallery: [],
       payments: {
+        subtitle: asText(data.payments && data.payments.subtitle, defaults.payments.subtitle),
         text: asText(data.payments && data.payments.text, defaults.payments.text)
       }
     };
