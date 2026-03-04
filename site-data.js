@@ -4,21 +4,21 @@
   const DEFAULT_SITE_CONTENT = {
     business: {
       name: "Balloons Queens",
-      phoneE164: "617144121",
+      phoneE164: "+34617144121",
       phoneDisplay: "617144121",
-      area: "Elche y alrededores",
+      area: "Elche, Alicante y alrededores",
       hours: "Lunes a Sabado, 9:00 a 20:00",
       instagramUrl: "https://www.instagram.com"
     },
     hero: {
-      title: "Decoraciones premium para la fiesta de tus sueños",
-      subtitle: "Hacemos montajes elegantes en Elche y alrededores, bautizos bodas y cumpleaños.",
+      title: "Decoraciones premium para bodas, comuniones y cumpleanos en Elche y Alicante",
+      subtitle: "Hacemos montajes elegantes con globos en Elche, Alicante y alrededores para eventos inolvidables.",
       ctaPrimaryText: "Ver paquetes",
       ctaSecondaryText: "Pedir presupuesto"
     },
     whatsapp: {
-      infoMessage: "Hola Balloons Queens, quiero informacion para mi evento en Elche",
-      reserveMessage: "Hola Balloons Queens, quiero reservar decoracion con globos en Elche"
+      infoMessage: "Hola Balloons Queens, quiero informacion para mi evento en Elche o Alicante",
+      reserveMessage: "Hola Balloons Queens, quiero reservar decoracion con globos en Elche o Alicante"
     },
     packages: [
       {
@@ -57,7 +57,7 @@
     ],
     gallery: [
       { image: "idea delaine.jpeg", alt: "Decoracion de mesa con globos" },
-      { image: "idea delaine.jpeg", alt: "Arco de globos para cumpleaños" },
+      { image: "idea delaine.jpeg", alt: "Arco de globos para cumpleanos" },
       { image: "idea delaine.jpeg", alt: "Decoracion elegante en rosa y dorado" },
       { image: "idea delaine.jpeg", alt: "Montaje premium con globos en Elche" }
     ],
@@ -273,8 +273,10 @@
   }
 
   function buildWhatsAppLink(phoneE164, message) {
-    const phone = String(phoneE164 || "").replace(/[^\d+]/g, "");
-    return "https://wa.me/" + phone.replace("+", "") + "?text=" + encodeURIComponent(message || "");
+    let phone = String(phoneE164 || "").replace(/[^\d]/g, "");
+    if (phone.startsWith("00")) phone = phone.slice(2);
+    if (phone.length === 9) phone = "34" + phone;
+    return "https://wa.me/" + phone + "?text=" + encodeURIComponent(message || "");
   }
 
   window.SiteContentStore = {
@@ -291,3 +293,4 @@
     getSupabaseConfig: getSupabaseConfig
   };
 })();
+

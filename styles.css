@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --pink-50: #fff6fb;
   --pink-100: #fdebf5;
   --pink-200: #f8d4e8;
@@ -211,6 +211,8 @@ h2 {
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
   background: rgba(255, 255, 255, 0.76);
   border: 1px solid rgba(190, 155, 95, 0.28);
   border-radius: 16px;
@@ -219,6 +221,7 @@ h2 {
 }
 
 .card-content {
+  flex: 1;
   padding: 1rem 1rem 1.25rem;
   display: flex;
   flex-direction: column;
@@ -245,6 +248,7 @@ h2 {
 }
 
 .card-content .btn {
+  margin-top: auto;
   align-self: center;
 }
 
@@ -560,4 +564,30 @@ body.modal-open {
   body {
     background-attachment: scroll;
   }
+}
+
+.faq-list {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.faq-list details {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(190, 155, 95, 0.24);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  box-shadow: var(--shadow);
+}
+
+.faq-list summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.faq-list p {
+  margin: 0.55rem 0 0;
+  font-size: 1.1rem;
 }

@@ -31,8 +31,14 @@ async function renderDynamicContent() {
   const packagesList = document.getElementById("packages-list");
   const galleryList = document.getElementById("gallery-list");
   const titleTag = document.querySelector("title");
+  const descriptionTag = document.querySelector('meta[name="description"]');
   const authorTag = document.querySelector('meta[name="author"]');
   const ogTitleTag = document.querySelector('meta[property="og:title"]');
+  const ogDescriptionTag = document.querySelector('meta[property="og:description"]');
+  const twitterTitleTag = document.querySelector('meta[name="twitter:title"]');
+  const twitterDescriptionTag = document.querySelector('meta[name="twitter:description"]');
+  const canonicalTag = document.getElementById("canonical-link");
+  const ogUrlTag = document.querySelector('meta[property="og:url"]');
 
   if (menuBrand) menuBrand.textContent = content.business.name;
   if (footerBrand) footerBrand.textContent = content.business.name;
@@ -48,13 +54,50 @@ async function renderDynamicContent() {
   if (contactHours) contactHours.textContent = content.business.hours;
   if (contactWhatsappBtn) {
     contactWhatsappBtn.href = waReserveLink;
-    contactWhatsappBtn.textContent = "Escribenos al " + content.business.phoneDisplay;
+    contactWhatsappBtn.textContent = "Escribenos por WhatsApp";
   }
   if (paymentsText) paymentsText.textContent = content.payments.text;
   if (footerYear) footerYear.textContent = String(new Date().getFullYear());
-  if (titleTag) titleTag.textContent = content.business.name + " | Decoracion con globos en Elche";
+
+  const siteTitle = content.business.name + " | Decoracion con globos en Elche y Alicante";
+  const siteDescription =
+    "Decoracion con globos en " +
+    content.business.area +
+    " para bodas, comuniones, bautizos y cumpleanos. Presupuesto por WhatsApp.";
+
+  if (titleTag) titleTag.textContent = siteTitle;
+  if (descriptionTag) descriptionTag.setAttribute("content", siteDescription);
   if (authorTag) authorTag.setAttribute("content", content.business.name);
-  if (ogTitleTag) ogTitleTag.setAttribute("content", content.business.name + " | Decoracion con globos en Elche");
+  if (ogTitleTag) ogTitleTag.setAttribute("content", siteTitle);
+  if (ogDescriptionTag) ogDescriptionTag.setAttribute("content", siteDescription);
+  if (twitterTitleTag) twitterTitleTag.setAttribute("content", siteTitle);
+  if (twitterDescriptionTag) twitterDescriptionTag.setAttribute("content", siteDescription);
+
+  const canonicalUrl = window.location.origin + window.location.pathname;
+  if (canonicalTag) canonicalTag.setAttribute("href", canonicalUrl);
+  if (ogUrlTag) ogUrlTag.setAttribute("content", canonicalUrl);
+
+  const localBusinessSchema = document.getElementById("local-business-schema");
+  if (localBusinessSchema) {
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      name: content.business.name,
+      description: "Decoracion con globos para eventos en " + content.business.area,
+      image: window.location.origin + "/logo.png",
+      telephone: "+34 " + content.business.phoneDisplay,
+      url: canonicalUrl,
+      areaServed: content.business.area,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Elche",
+        addressRegion: "Alicante",
+        addressCountry: "ES"
+      },
+      sameAs: [content.business.instagramUrl]
+    };
+    localBusinessSchema.textContent = JSON.stringify(schema);
+  }
 
   if (packagesList) {
     function escapeHtml(value) {
@@ -76,11 +119,21 @@ async function renderDynamicContent() {
 
         return (
           '<article class="card">' +
-          '<img src="' + escapeHtml(pkg.image) + '" alt="' + escapeHtml(pkg.alt) + '" loading="lazy" decoding="async" />' +
+          '<img src="' +
+          escapeHtml(pkg.image) +
+          '" alt="' +
+          escapeHtml(pkg.alt) +
+          '" loading="lazy" decoding="async" />' +
           '<div class="card-content">' +
-          "<h3>" + escapeHtml(pkg.name) + "</h3>" +
-          '<p class="price">' + escapeHtml(pkg.price) + "</p>" +
-          "<ul>" + featuresHtml + "</ul>" +
+          "<h3>" +
+          escapeHtml(pkg.name) +
+          "</h3>" +
+          '<p class="price">' +
+          escapeHtml(pkg.price) +
+          "</p>" +
+          "<ul>" +
+          featuresHtml +
+          "</ul>" +
           '<a class="btn btn-primary" href="#contacto">Reservar ahora</a>' +
           "</div>" +
           "</article>"
