@@ -537,7 +537,7 @@ body.modal-open {
 
 @media (max-width: 680px) {
   .hero-media {
-    object-position: center 16%;
+    object-position: center 36%;
   }
 
   .hero {
