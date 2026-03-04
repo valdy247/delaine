@@ -160,6 +160,20 @@ img {
   object-fit: cover;
   object-position: center 18%;
   aspect-ratio: auto;
+  transition: opacity 220ms ease;
+}
+
+.hero-media-fallback {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero.video-ended #hero-video {
+  opacity: 0;
+}
+
+.hero.video-ended .hero-media-fallback {
+  opacity: 1;
 }
 
 .hero::before {

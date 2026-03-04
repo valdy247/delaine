@@ -134,9 +134,17 @@
     <main>
       <section id="inicio" class="hero">
         <div class="container hero-inner reveal">
-          <video class="hero-media" autoplay muted playsinline preload="metadata" aria-label="Video de marca Alisseo">
+          <video id="hero-video" class="hero-media" autoplay muted playsinline preload="metadata" aria-label="Video de marca Alisseo">
             <source src="video%20logo.mp4" type="video/mp4" />
           </video>
+          <img
+            id="hero-fallback-image"
+            class="hero-media hero-media-fallback"
+            src="imagen%20despues%20del%20video.jpeg"
+            alt="Imagen de marca Alisseo"
+            loading="eager"
+            decoding="async"
+          />
           <h1 id="hero-title">Decoraciones premium para bodas, comuniones y cumpleanos en Elche y Alicante</h1>
           <p id="hero-subtitle">Hacemos montajes elegantes con globos en Elche, Alicante y alrededores para eventos inolvidables.</p>
           <div class="hero-cta">

@@ -264,8 +264,20 @@ function setupPaymentsModal() {
   });
 }
 
+function setupHeroVideoFallback() {
+  const hero = document.querySelector(".hero");
+  const heroVideo = document.getElementById("hero-video");
+
+  if (!hero || !heroVideo) return;
+
+  heroVideo.addEventListener("ended", function () {
+    hero.classList.add("video-ended");
+  });
+}
+
 setupRevealAnimation();
 setupMobileMenu();
 setupPaymentsModal();
+setupHeroVideoFallback();
 
 renderDynamicContent();
